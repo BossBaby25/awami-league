@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
+import MembersList from "../MembersList/MembersList";
 
 function Location() {
+  const [organization, setOrganization] = useState([]);
+  const [organizationId, setOrganizationId] = useState('');
   const [division, setDivision] = useState([]);
   const [divisionId, setDivisionid] = useState('');
   const [district, setDistrict] = useState([]);
   const [districtId, setDistrictId] = useState('');
   const [upazila, setUpazila] = useState([]);
+  const [member, setMember] = useState([]);
 
+
+  //  {/* Division  */}
   useEffect(() => {
     const getDivision = async () => {
-      const resDivision = await fetch("http://localhost/devopsdeveloper/division/");
+      const resDivision = await fetch("https://awami-league-server.vercel.app/division");
       const resDiv = await resDivision.json();
       setDivision(await resDiv);
     }
@@ -21,9 +27,25 @@ function Location() {
     setDivisionid(getDivisionid);
   }
 
+  //  {/* organization  */}
+  useEffect(() => {
+    const getOrganization = async () => {
+      const resOrganization = await fetch("https://awami-league-server.vercel.app/organizations");
+      const resOrg = await resOrganization.json();
+      setOrganization(await resOrg);
+    }
+    getOrganization();
+  }, []);
+
+  const handleOrganization = (event) => {
+    const getOrganizationId = event.target.value;
+    setOrganizationId(getOrganizationId);
+  }
+
+  // {/* District  */}
   useEffect(() => {
     const getDistrict = async () => {
-      const resDistrict = await fetch(`http://localhost/devopsdeveloper/District/getDistrict/${divisionId}`);
+      const resDistrict = await fetch(`https://awami-league-server.vercel.app/districts/${divisionId}`);
       const resDis = await resDistrict.json();
       setDistrict(await resDis);
     }
@@ -34,15 +56,34 @@ function Location() {
     const getDistrictid = event.target.value;
     setDistrictId(getDistrictid);
   }
-
+  // {/* upozila  */}
   useEffect(() => {
     const getupazila = async () => {
-      const resupazila = await fetch(`http://localhost/devopsdeveloper/upazila/getupazila/${districtId}`);
+      const resupazila = await fetch(`https://awami-league-server.vercel.app/upZilas/${districtId}`);
       const rupazila = await resupazila.json();
       setUpazila(await rupazila);
     }
     getupazila();
   }, [districtId]);
+
+  //party members list
+  const [memberShow, setMemberShow] = useState(false);
+  const handleMembers = () => {
+    const membersUnit = organizationId;
+    console.log(membersUnit);
+    setMemberShow(true);
+  }
+
+  // load member
+  useEffect(() => {
+    const getMember = async () => {
+      const resMember = await fetch(`https://awami-league-server.vercel.app/organizations/${organizationId}`);
+      const mem = await resMember.json();
+      console.log(mem);
+      setMember(await mem);
+    }
+    getMember();
+  }, [organizationId]);
 
   return (
 
@@ -56,51 +97,51 @@ function Location() {
           <form className=" bg-green-500">
 
             <div className="md:flex p-5 justify-around">
-
+              {/* organization  */}
               <div className="">
                 <label className="p-2 text-white text-xl font-semibold">Organization</label>
-                <select className="" name="District" onChange={(e) => handlestate(e)}>
+                <select className="" name="Organization" onChange={(e) => handleOrganization(e)}>
                   <option value="">--Select Organization--</option>
                   {
-                    district.map((getst, index) => (
-                      <option key={index} value={getst.district_id}>{getst.district_name} </option>
+                    organization.map((getOrganization, index) => (
+                      <option key={index} value={getOrganization.id}>{getOrganization.name} </option>
                     ))
                   }
                 </select>
               </div>
 
-
+              {/* Division  */}
               <div className="">
                 <label className="p-2 text-white text-xl font-semibold">Division </label>
                 <select name="division" className="" onChange={(e) => handleDivision(e)} >
                   <option value="">--Select Division--</option>
                   {
                     division.map((getDivision, index) => (
-                      <option key={index} value={getDivision.Division_id}>{getDivision.Division_name} </option>
+                      <option className="text-black" key={index} value={getDivision.id}>{getDivision.name} </option>
                     ))
                   }
                 </select>
               </div>
-
+              {/* District  */}
               <div className="">
                 <label className="p-2 text-white text-xl font-semibold">District</label>
                 <select className="" name="District" onChange={(e) => handlestate(e)}>
                   <option value="">--Select District--</option>
                   {
-                    district.map((getst, index) => (
-                      <option key={index} value={getst.district_id}>{getst.district_name} </option>
+                    district.map((getDistrict, index) => (
+                      <option key={index} value={getDistrict.id}>{getDistrict.name} </option>
                     ))
                   }
                 </select>
               </div>
-
+              {/* upozila  */}
               <div className="">
                 <label className="p-2 text-white text-xl font-semibold">Upazila</label>
                 <select className="" name="upazila">
                   <option value="">--Select Upazila--</option>
                   {
                     upazila.map((gupazila, index) => (
-                      <option key={index} value={gupazila.upazila_id}> {gupazila.upazila_name} </option>
+                      <option key={index} value={gupazila.id}> {gupazila.name} </option>
                     ))
                   }
                 </select>
@@ -108,12 +149,20 @@ function Location() {
             </div>
 
             <div className="flex justify-center">
-              <button type="button" className="p-2 rounded-md bg-red-500 hover:bg-red-700 text-white mb-3 font-semibold">Submit</button>
+              <button type="button" className="p-2 rounded-md bg-red-500 hover:bg-red-700 text-white mb-3 font-semibold" onClick={handleMembers}>Submit</button>
             </div>
 
           </form>
         </div>
       </div>
+      {
+        memberShow &&
+
+        member.map((getMember, index) => (
+          <MembersList key={index} getMember={getMember} >
+
+          </MembersList>))
+      }
     </div>
   );
 }

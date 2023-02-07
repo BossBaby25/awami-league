@@ -9,20 +9,21 @@ import Organization from './Organization/Organization';
 function App() {
   const router = createBrowserRouter([
     {
-      path:'/',
-      element:<Main></Main>,
-      children:[
+      path: '/',
+      element: <Main></Main>,
+      children: [
         {
-          path:'/',
-          element:<Location></Location>,
+          path: '/',
+          loader: (params) => fetch(`https://awami-league-server.vercel.app/organizations/${params.unitId}`),
+          element: <Location></Location>,
         },
         {
-          path:'about',
-          element:<About></About>,
+          path: 'about',
+          element: <About></About>,
         },
         {
-          path:'organization',
-          element:<Organization></Organization>,
+          path: 'organization',
+          element: <Organization></Organization>,
         }
 
       ]
