@@ -2,6 +2,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import About from './About/About';
 import './App.css';
+import Info from './Info/Info';
 import Main from './layouts/Main';
 import Location from './Location/Location';
 import Organization from './Organization/Organization';
@@ -24,6 +25,10 @@ function App() {
         {
           path: 'organization',
           element: <Organization></Organization>,
+        },
+        {
+          path:'info',
+          element:<Info></Info>,
         }
 
       ]
