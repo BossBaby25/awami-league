@@ -10,7 +10,7 @@ const MembersList = ({ member }) => {
             <p className='ml-5'>Name: {getMember.name}</p>
             <p className='ml-5'>Phone: {getMember.phone}</p> */}
 
-            <h1 className='mt-4 mb-4 font-bold text-center text-2xl'>Banladesh {member.name}</h1>
+            <h1 className='mt-4 mb-4 font-bold text-center text-2xl'>Bangladesh {member.name}</h1>
 
             <div className="flex justify-center">
 
