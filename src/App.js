@@ -23,7 +23,7 @@ function App() {
           element: <About></About>,
         },
         {
-          path: 'organization',
+          path: 'search',
           element: <Organization></Organization>,
         },
         {

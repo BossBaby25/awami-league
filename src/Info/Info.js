@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const Info = () => {
+    const [value, onChange] = useState(new Date());
     return (
         <div>
             <div className='grid justify-items-center'>
@@ -44,6 +47,23 @@ const Info = () => {
                         <option>Engineer</option>
                         <option>Doctor</option>
                     </select>
+                    <select className="select-success select select-bordered w-full max-w-xs mt-5">
+                        <option disabled selected>Blood Group:</option>
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                    </select>
+                    <div className='flex-row justify-center my-2'>
+                        <h4 className='font-semibold'>Date Of Birth:</h4>
+                        <div>
+                            <Calendar onChange={onChange} value={value} />
+                        </div>
+                    </div>
                     <label className="label">
                         <span className="label-text">Email:</span>
                     </label>

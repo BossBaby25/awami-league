@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MembersList from "../MembersList/MembersList";
+import img from "../assets/bangladesh-awami-league-logo.png"
 
 function Location() {
   const [organization, setOrganization] = useState([]);
@@ -39,6 +40,7 @@ function Location() {
 
   const handleOrganization = (event) => {
     const getOrganizationId = event.target.value;
+    console.log(getOrganizationId)
     setOrganizationId(getOrganizationId);
   }
 
@@ -90,9 +92,18 @@ function Location() {
     <div className="">
       <div className="">
         <div className="">
-          <h2 className="mt-4 mb-4 font-bold text-center text-2xl">
-            Select Division, District and Upazila{" "}
-          </h2>
+          <div className="flex justify-center m-3">
+            <div className="grid justify-items-center">
+              <div className="w-28 rounded">
+                <img src={img} alt="" />
+              </div>
+              <div>
+                <h2 className="mt-4 mb-4 font-bold text-center text-2xl">
+                  Organization Data Entry Form
+                </h2>
+              </div>
+            </div>
+          </div>
 
           <form className=" bg-green-500">
 
@@ -157,11 +168,11 @@ function Location() {
       </div>
       {
         memberShow &&
+        // member.forEach((getMember, index) => (
+        //   <MembersList key={index} getMember={getMember} >
 
-        member.map((getMember, index) => (
-          <MembersList key={index} getMember={getMember} >
-
-          </MembersList>))
+        //   </MembersList>))
+        <MembersList member={member}></MembersList>
       }
     </div>
   );
